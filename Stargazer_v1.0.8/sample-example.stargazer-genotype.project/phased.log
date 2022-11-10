@@ -1,0 +1,50 @@
+beagle.25Nov19.28d.jar (version 5.1)
+Copyright (C) 2014-2018 Brian L. Browning
+Enter "java -jar beagle.25Nov19.28d.jar" to list command line argument
+Start time: 01:23 PM EDT on 30 Oct 2022
+
+Command line: java -Xmx2048m -jar beagle.25Nov19.28d.jar
+  gt=sample-example.stargazer-genotype.project/phaseme.vcf
+  chrom=22:42512500-42551883
+  ref=/mnt/e/Stargazer_v1.0.8/1kgp_vcf/cyp2d6.vcf.gz
+  out=sample-example.stargazer-genotype.project/phased
+  impute=false
+
+No genetic map is specified: using 1 cM = 1 Mb
+
+Reference samples:       2,504
+Study samples:               2
+
+Window 1 (22:42516366-42551344)
+Reference markers:          91
+Study markers:              91
+
+Burnin  iteration 1:           0 seconds
+Burnin  iteration 2:           0 seconds
+Burnin  iteration 3:           0 seconds
+Burnin  iteration 4:           0 seconds
+Burnin  iteration 5:           0 seconds
+Burnin  iteration 6:           0 seconds
+
+Phasing iteration 1:           0 seconds
+Phasing iteration 2:           0 seconds
+Phasing iteration 3:           0 seconds
+Phasing iteration 4:           0 seconds
+Phasing iteration 5:           0 seconds
+Phasing iteration 6:           0 seconds
+Phasing iteration 7:           0 seconds
+Phasing iteration 8:           0 seconds
+Phasing iteration 9:           0 seconds
+Phasing iteration 10:          0 seconds
+Phasing iteration 11:          0 seconds
+Phasing iteration 12:          0 seconds
+
+Cumulative Statistics:
+
+Study markers:              91
+
+Haplotype phasing time:        1 second
+Total time:                    2 seconds
+
+End time: 01:23 PM EDT on 30 Oct 2022
+beagle.25Nov19.28d.jar finished
