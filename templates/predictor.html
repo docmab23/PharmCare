@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+{% block content %}
+  <div>
+      <h3 align="center"><b>Instructions</b></h2>
+      <h2 align="center"><b>1) Please upload files in the following format (.vcf)</b></h2>
+      <h2 align="center"><b>2) Please enter complete vcf file from WGS or WES</b></h2>
+      
+    <form input type="hidden" name="myform" value="text_entry_form" action="{{ url_for('predict')}}"method="post" >
+	
+  <label for="Drugs">Choose a Drug:</label>
+  <select name="Drugs" id="cars">
+    <option value="Paracetamol">Paracetamol</option>
+    <option value="Acetaminophen">Acetaminophen</option>
+    <option value="opel">Opel</option>
+    <option value="audi">Audi</option>
+  </select>
+  <br><br>
+  <input type="submit" value="Submit">
+</form>
+
+<br>
+<br>
+<form input type="hidden" name="form" value="file_upload_form" action="/submit" method="post" enctype="multipart/form-data">
+	<p><input type="file" name= "file" accept=".fasta">
+	<input type=submit  name="myform" value=Upload >
+</form>
+  </div>
+{% endblock %}

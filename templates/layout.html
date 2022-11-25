@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+  <body>
+    <head>
+      <title>Pharm Care </title>
+      <meta charset="utf-8">
+      <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles/style.css') }}">
+      <style>
+    #video {
+        content:"";
+      display:block;
+      min-height:300px;
+      width:100%;
+      text-align:center;
+      box-shadow:inset 0 -1px 5px rgba(0,0,0,0.6);
+        background:url("{{ url_for('static', filename='images/trial3.jpeg') }}");
+        background-size:cover;}
+        table, th, td {
+        border: 1px solid black;
+        border-collapse: collapse;
+       }
+      th, td {
+        padding: 5px;
+      }
+
+     </style>
+    </head>
+    <header>
+      <nav class="main-nav">
+       <ul>
+          <li>
+        <ul>
+          <li><a href="{{ url_for('home') }}" class="active"><b>Home</b></a></li>
+          <li><a href="{{ url_for('predictor') }}" class="active"><b>Predictor</b></a></li>
+          <li><a href="{{ url_for('about') }}"class="active"><b>Contact Us</b></a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+</header>
+      <section id="video" class="home">
+  <h1><b>Pharm Care</b></h1>
+</section>
+<section id="main-content">
+  <div class="text-intro">
+    <h2><b>Precise My Prescription</b></h2>
+  </div>
+    <div class="container">
+      {% block content %}
+      {% endblock %}
+    </div>
+    <br>
+    <br>
+    <footer>
+      <div class="copyright"><small>Copyright. All Rights Reserved | by <a  href="{{ url_for('about') }}" class="active" <b>Pharmacogenomics_Gatech_team</b>.</small></div>
+    </footer>
+  </body>
+</html>

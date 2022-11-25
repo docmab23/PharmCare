@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+   <div class="columns features">
+    <div class="one-third first">
+      <h3><b>Why?</b></h3>
+      <p>Use your DNA profile to get the best possible prescription for you. Let the DNA empower you!!</p>
+    </div>
+    <div class="one-third">
+      <h3><b>How?</b></h3>
+      <p>Magic!! Kidding aside we take the <b>vcf</b> file from a WGS or WES based study, find genetic information and associate it with pharmacogenomic based information and provide you with what drugs suit you the best</p>
+    </div>
+    <div class="one-third">
+      <h3><b>Why this Server?</b></h3>
+      <p>Well we are one of a kind! <b>FREE</b> service. Give us your file along with the drug that you want to see would suit you or not. Click on this and get personalized healthcare <a  href="{{ url_for('predictor') }}" class="active"><b>Predictor</b></a></p>
+    </div>
+
+{% endblock %}
+

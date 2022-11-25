@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<h1 style="text-align:center"><b>Expansin Predictor Result</b></h2>
+
+<table style="width:100%">
+  <tr align="center">
+    <th align="center"><b>Protein_name</b></th>
+    <th align="center"><b>Result</b></th>
+
+  </tr>
+  <tr align="center">
+    <td>{{ prediction_text }}
+        {% for item in varchar %}
+          <p> {{ item }} </p>
+
+        {% endfor %}
+    </td>
+    <td>{{ prediction_text }}
+        {% for item in data %}
+          <p> {{ item }} </p>
+
+        {% endfor %}
+    </td>
+
+  </tr>
+</table>
+
+
+
+</body>
+</html>
+{% endblock %}
