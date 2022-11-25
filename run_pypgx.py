@@ -34,6 +34,7 @@ for ind , row in focus_df.iterrows():
 
 
 unqiue_genes = list(set(genes))
+print(unqiue_genes)
 
 
 if len(unqiue_genes)==1:
@@ -49,19 +50,21 @@ if len(unqiue_genes)==1:
 
     print(file[0])
     df2 = pd.read_csv("{dir}/data.tsv".format(dir=file[0]),sep='\t')
-    #print(df2.columns)
+    
     genotype = str(df2["Genotype"])
     phenotype = (df2["Phenotype"][0])
-    print(phenotype[0])
+    print(phenotype)
 
     os.chdir("../")
     
 
     #recommendation = str(df.loc[(df['Drug'] == str(drug).lower())])
     recommendation = focus_df[focus_df["Phenotype1"]==phenotype]["Recommendation"]
-
-
-    print(recommendation)
+    rec=recommendation.to_frame()
+    print(rec.columns)
+    df3 = rec.drop_duplicates(keep='first') #Removing duplicates and just keeping the first hit
+    print(df3)
+    df3.to_csv('rec2.csv')
 
 
 
