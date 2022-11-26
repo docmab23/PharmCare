@@ -118,7 +118,7 @@ def predict():
 			# try to avoid this			
 			os.chdir("../")
 
-			print
+			
 
 			#recommendation = str(df.loc[(df['Drug'] == str(drug).lower())])
 			recommendation = focus_df[focus_df["Phenotype1"]==phenotype]["Recommendation"]
@@ -127,16 +127,33 @@ def predict():
 			print(rec.columns)
 			
 			df3 = rec.drop_duplicates(keep='first') #Removing duplicates and just keeping the first hit
+			recommend = df3["Recommendation"].tolist()
+
+			ph_result=[]
+			if phenotype.startswith("Normal Metabolizer") or phenotype.startswith("Rapid Metabolizer"):
+				ph_result.append("Take it!")
+			else:
+				ph_result.append("Leave it!")
+
+
+
+       		
+     		
+       		   
+
+			#print(df3)
 			
-			print(df3)
 			
-			df3.to_csv('rec2.csv')
+			#df3.to_csv('rec2.csv')
 		
-		return df3.to_json()
+		#return df3.to_json()
+	
 
 	except Exception as e:
 		print(str(e))
 		return {"msg" : str(e)}
+	
+	return render_template("show.html", data=recommend, varchar=drug, diag=ph_result)
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
@@ -160,7 +177,7 @@ def submit():
             data,varchar=predict(os.path.join(app.config['UPLOAD_FOLDER'], filename), filename)
             #return redirect(url_for('uploaded_file', filename=filename))
     #return render_template('predictor.html')
-    return render_template("show.html", data=data, varchar=varchar)
+    #return render_template("show.html", data=data, varchar=varchar)
 
 """
 def process_file(path, filename):
