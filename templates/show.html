@@ -1,22 +1,29 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<h1 style="text-align:center"><b>Expansin Predictor Result</b></h2>
+<h1 style="text-align:center"><b>Pharmcare Result</b></h2>
 
 <table style="width:100%">
   <tr align="center">
-    <th align="center"><b>Protein_name</b></th>
-    <th align="center"><b>Result</b></th>
+    <th align="center"><b>Drug Name</b></th>
+    <th align="center"><b>Take it/Leave it?</b></th>
+    <th align="center"><b>Recommendation</b></th>
 
   </tr>
   <tr align="center">
-    <td>{{ prediction_text }}
+    <td>{{ prediction_text }} <!-- Drug name block -->
         {% for item in varchar %}
           <p> {{ item }} </p>
 
         {% endfor %}
     </td>
-    <td>{{ prediction_text }}
+    <td>{{ prediction_text }} <!-- take it/ leave it block -->
+      {% for item in diag %}
+        <p> {{ item }} </p>
+
+      {% endfor %}
+  </td>
+    <td>{{ prediction_text }} <!-- Recommendation block -->
         {% for item in data %}
           <p> {{ item }} </p>
 
