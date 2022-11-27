@@ -6,7 +6,8 @@
 """
 
 import numpy as np
-from flask import Flask, request, jsonify, render_template
+from flask import Flask, request, jsonify, render_template, session
+from flask_session import Session
 import pickle
 import pypgx
 from pypgx.api import utils
@@ -17,6 +18,9 @@ import os
 import shlex
 from werkzeug.utils import secure_filename
 import os
+from flask_login import current_user
+#from flask_login import 
+import uuid 
 from flask import (
     Flask,
     request,
@@ -26,6 +30,9 @@ from flask import (
     send_from_directory,
 )
 from werkzeug.utils import secure_filename
+
+
+
 
 
 def tbi(vcf_file):
@@ -70,9 +77,15 @@ UPLOAD_FOLDER = os.path.dirname(os.path.abspath(__file__)) + "/uploads/"
 
 
 app = Flask(__name__, static_url_path="/static")
+app.secret_key = "pimadi"
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_TYPE"] = "filesystem"
+#sess = Session()
+#sess.init_app(app)
+#sess.init_app(app)
 
-ALLOWED_EXTENSIONS = {"fasta", "vcf"}
+ALLOWED_EXTENSIONS = {"gz", "vcf"}
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
 app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
@@ -80,6 +93,8 @@ app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
 
 @app.route("/")
 def home():
+    #print(current_user.id)
+    #print(session.sid)
     return render_template("home.html")
 
 
@@ -104,9 +119,10 @@ def predict():
 
         drug = request.form.get("drug")
         vcf = request.files.get("file")
-        id = "dekhe3"
-        
+        id = str(uuid.uuid4())
+        session["username"] = id 
         print(request.files)
+       # print(sess.sid)
         print(request.form)
         print(vcf)
 
@@ -201,10 +217,17 @@ def predict():
             # df3.to_csv('rec2.csv')
 
         # return df3.to_json()
+        
 
     except Exception as e:
 
         return {"msg": str(e)}
+    
+    
+    os.system("rm -r {vcf}".format(vcf=path_upload))
+    os.system("rm -r {path}/*.tbi".format(path = "/uploads"))
+    os.system("rm -r {dir}".format(dir=id))
+    
 
     return render_template("show.html", data=recommend, varchar=drug, diag=ph_result)
 
@@ -226,12 +249,14 @@ def submit():
             return render_template("predictor.html")
             return redirect(request.url)
         if file and allowed_file(file.filename):
+           # session["username"] = file.filename
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
             data, varchar = predict(
                 os.path.join(app.config["UPLOAD_FOLDER"], filename), filename
             )
             # return redirect(url_for('uploaded_file', filename=filename))
+            session.pop('username', None)
     # return render_template('predictor.html')
     # return render_template("show.html", data=data, varchar=varchar)
 
