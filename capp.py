@@ -101,14 +101,16 @@ def predict():
         recommend = None
         df = pypgx.load_recommendation_table()
         print("This will work")
-        print(request.files)
 
-        drug = request.args.get("drug")
-        #drug = "fluvastatin"
+        drug = request.form.get("drug")
         vcf = request.files.get("file")
         id = "dekhe3"
-        #print(drug)
+        
+        print(request.files)
+        print(request.form)
+        print(vcf)
 
+        
         # saving the file
         filename = secure_filename(vcf.filename)
 
@@ -284,7 +286,6 @@ def process_file(path, filename):
      
      return(str,kratikal)
      #return render_template("show.html", data=str, varchar=kratikal)
-
 """
 
 
@@ -293,4 +294,4 @@ def allowed_file(filename):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0",debug=True)
