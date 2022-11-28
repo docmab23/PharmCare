@@ -1,2 +1,0 @@
-Gene=CYP3A5
-SemanticType=SampleTable[Phenotypes]

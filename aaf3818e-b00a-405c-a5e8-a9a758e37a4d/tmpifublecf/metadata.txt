@@ -1,3 +1,0 @@
-Gene=CYP2C19
-Assembly=GRCh37
-SemanticType=SampleTable[Results]
