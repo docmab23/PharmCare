@@ -10,6 +10,9 @@ To use Pharmacogenomic based information to predict the usage and the recommenda
 Input files accepted - vcf, vcf.gz, txt(23andMe)
 
 
+The application on the backend uses PyPgx to call star alleles for the pharmaco-genes (a single pipeline is run for one gene), along with thre other outputs, this gives the phenptype of the variant as well, which in turn , can be used to get the recommendations for the partiuclar gene-drug pair.
+
+
 
 # Requirement Installation
 1. git clone  https://github.com/docmab23/Pharmacogenomics-Deepvariant.git
@@ -17,9 +20,6 @@ Input files accepted - vcf, vcf.gz, txt(23andMe)
 2. git clone https://github.com/sbslee/pypgx-bundle.git (in your home directory)
 
 3. pip install -r requirements.txt
-
-
-
 
 
 # Interface
