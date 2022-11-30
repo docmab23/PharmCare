@@ -5,7 +5,7 @@ Link to the webserver - http://161.35.61.155:5000/
 
 # Aim of the project
 To use Pharmacogenomic based information to predict the usage and the recommendation asscoiated with the drug based on users WGS report.
-
+![alt text](assets/intro_dosage.png)
 
 Input files accepted - vcf, vcf.gz, txt(23andMe)
 
