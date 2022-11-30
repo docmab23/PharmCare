@@ -22,7 +22,7 @@ Input files accepted - vcf, vcf.gz, txt(23andMe)
 
 
 
-#Interface
+# Interface
 
 ![alt text](assets/image1.png)
 
