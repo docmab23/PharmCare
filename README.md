@@ -24,6 +24,7 @@ Input files accepted - vcf, vcf.gz, txt(23andMe)
 
 #Interface
 
+![alt text](assets/image1.png)
 
 # References
 1. Wroblewski et al., 2022. Pharmacogenetic variation in Neanderthals and Denisovans and implications for human health and response to medications. bioRxiv.
