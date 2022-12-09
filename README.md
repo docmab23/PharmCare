@@ -13,7 +13,7 @@ To use Pharmacogenomic based information to predict the usage and the recommenda
 
 Classification of drug Metabolization :- 
 
-![alt text](assets/intro_dosage.png)
+![alt text](assets/metabolizer.png)
 
 
 # Method
