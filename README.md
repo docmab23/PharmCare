@@ -20,7 +20,7 @@ Classification of drug Metabolization :-
 ![alt text](assets/workflow.png)
 
 
-Input files accepted - vcf, vcf.gz, txt(23andMe)
+Input files accepted - <b>vcf, vcf.gz, txt(23andMe)</b>
 
 
 The application on the backend uses PyPgx to call star alleles for the pharmaco-genes (a single pipeline is run for one gene), along with thre other outputs, this gives the phenptype of the variant as well, which in turn , can be used to get the recommendations for the partiuclar gene-drug pair.
