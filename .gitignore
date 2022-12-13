@@ -1,0 +1,5 @@
+*.fa
+*.fai
+*.vcf 
+*.vcf.gz 
+input_test
