@@ -1,6 +1,39 @@
+<Html>
+
+<head>
+  <script type="text/javascript">// <![CDATA[
+  function loading(){
+    console.log(" Submitted! ") 
+      var vv =document.getElementsByClassName("loading")
+      console.log(vv)
+      vv.style.display=="block";
+      console.log(document.getElementById("loading"))
+      document.getElementById("content").style.display=="none";       
+  }
+</script>
+<style>
+  div#loading {
+    width: 100px;
+    height: 100px;
+    display: none;
+    cursor: wait;
+    }
+    div#content {
+    display: block;
+    }
+  
+</style>
+</head>
+<body>
 {% extends "layout.html" %}
 {% block content %}
-  <div>
+
+
+
+  <div id="loading" class="loading">
+    <img src="{{url_for('static', filename='Youtube_loading_symbol_1_(wobbly).gif')}}" align="middle" />
+  </div>
+  <div id="content">
       <h3 align="center"><b>Instructions</b></h2>
       <h2 align="center"><b>1) Please upload files in the following format (.vcf)</b></h2>
       <h2 align="center"><b>2) Please enter complete vcf file from WGS or WES</b></h2>
@@ -9,7 +42,6 @@
         
   <label for="Drugs">Choose a Drug:</label>
   <select name="drug" id="drug" required>
-    <option value="Paracetamol">Paracetamol</option>
     <option value="Acetaminophen">Acetaminophen</option>
     <option     value=  'nortriptyline'>nortriptyline</option>
     <option     value=  'sertraline'>sertraline</option>
@@ -77,9 +109,12 @@
 
   <br><br>
   
-  <input type="submit" value="Submit">
+  <input type="submit" value="Submit" onClick=loading()>
 
 </form>
+</div>
 {% endblock %}
 <br>
-<br>                                                     
+<br>     
+</body>                                                
+</Html>
