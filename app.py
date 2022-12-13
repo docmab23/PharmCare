@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-
 @author: piyus
 """
 
@@ -18,6 +17,7 @@ import os
 import shlex
 from werkzeug.utils import secure_filename
 import os
+import logging 
 from flask_login import current_user
 #from flask_login import 
 import uuid 
@@ -32,39 +32,55 @@ from flask import (
 from werkzeug.utils import secure_filename
 
 
+import matplotlib
+matplotlib.use('agg')
 
 
-
-def tbi(vcf_file):
+def tbi(vcf):
     # pass
-    print("run tbi")
-    print(os.getcwd())
-    print(vcf_file)
-    if vcf_file.endswith(".gz"):
-        # print("zipped file ")
-        if not os.path.exists(str(vcf_file) + ".tbi"):
-            print("its zipped!")
-            try:
-                print("in Try")
-                os.system(("tabix -p vcf {vcf}".format(vcf=vcf_file)))
-            except:
-                # print(vcf.split(".gz")[0])
-                print("in except")
-                os.system("gunzip {vcf}".format(vcf=vcf_file))
-                os.system(
-                    "bgzip -c {vcf_un} > {vcf2}".format(
-                        vcf_un=vcf_file.split(".gz")[0], vcf2=vcf_file
-                    )
-                )
-                os.system("tabix -p vcf {vcf}".format(vcf=vcf_file))
-    else:
-        print(vcf_file + ".gz")
+    os.chdir(UPLOAD_FOLDER)
+    if vcf.endswith(".vcf.gz"):
+    #print("zipped file ")
+    
+        print(vcf.split(".gz")[0])
+        os.system("gunzip {vcf}".format(vcf=vcf))
+        os.system("bgzip -c {vcf_un} > {vcf2}".format(vcf_un=vcf.split(".gz")[0] , vcf2 = vcf))
+        os.system("tabix -p vcf {vcf}".format(vcf=vcf))
+
+        
+
+    elif vcf.endswith(".vcf"):
+        print(vcf+".gz")
         print("Zipping using bgzip")
-        os.system("bgzip -c {vcf} > {vcf2}".format(vcf=vcf_file, vcf2=vcf_file + ".gz"))
-        os.system("tabix -p vcf {vcf2}".format(vcf2=vcf_file + ".gz"))
+        os.system("bgzip -c {vcf} > {vcf2}".format(vcf=vcf,vcf2=vcf +".gz"))
+        os.system("tabix -p vcf {vcf2}".format(vcf2 = vcf+".gz"))
+        # print("index made")
 
-        vcf = str(vcf_file) + ".gz"
+     #vcf = str(vcf)+".gz"
+     
+    elif vcf.endswith(".txt.gz"):
+        f = vcf.split(".txt.gz")[0]+".vcf"
+        os.system("gunzip {vcf}".format(vcf=vcf))
+        os.system("bcftools convert --tsv2vcf {v} -f ../hs37d5.fa -s {v}  -Ov -o {f}".format(v= vcf.split(".gz")[0], f = f))
+        os.system("bgzip -c {f} > {vcf2}".format(f=f, vcf2=f +".gz"))
+        os.system("tabix -p vcf {vcf2}".format(vcf2 = f+".gz"))
+        
 
+    else:
+        #f = vcf.split("uploads/")[-1].split(".txt")[0]+".vcf"
+        f = vcf.split(".txt")[0]+".vcf"
+        print("F is ",f)
+        os.system("bcftools convert --tsv2vcf {v} -f ../hs37d5.fa  -s {v}  -Ov -o {f}".format(v= vcf, f = f))
+        print("ran!")
+        os.system("bgzip -c {f} > {vcf2}".format(f=f, vcf2=f +".gz"))
+        os.system("rm -r {f}".format(f=f))
+        os.system("rm -r {v}".format(v=vcf))
+        os.system("tabix -p vcf {vcf2}".format(vcf2 = f+".gz"))
+        #os.system("mv {vcf2} ./uploads".format(vcf2=f +".gz"))
+        #os.system("mv {tabix} ./uploads".format(tabix=f +".gz.tbi"))
+  
+
+    os.chdir(DIR_PATH)
 
 dpe = []
 final_features = []
@@ -88,7 +104,7 @@ app.config["SESSION_TYPE"] = "filesystem"
 ALLOWED_EXTENSIONS = {"gz", "vcf"}
 
 DIR_PATH = os.path.dirname(os.path.realpath(__file__))
-app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+app.config["MAX_CONTENT_LENGTH"] = 100 * 1024 * 1024
 
 
 @app.route("/")
@@ -132,11 +148,18 @@ def predict():
 
        # print(app.config["UPLOAD_FOLDER"])
         
-        path_upload = os.path.join("uploads/", filename)
-        print(path_upload)
+        
+        #path_upload = os.path.join("uploads/", filename)
+        #print(path_upload)
         vcf.save(os.path.join(app.config["UPLOAD_FOLDER"], filename))
-        tbi(path_upload)
+        print(os.getcwd())
+        tbi("{name}".format(name=filename))
         # tbi("eee")
+        name_ = filename.split(".")[0]+".vcf.gz"
+        new_file_path =  "./uploads/{name}".format(name=name_)
+        print("new_file path is:",new_file_path)
+        cmd =  f"python3 run_pypgx.py -vcf {new_file_path} -j {id} -d {drug}"
+        os.system(cmd)
 
         focus_df = df.loc[(df["Drug"] == str(drug).lower())]
 
@@ -153,79 +176,85 @@ def predict():
         unqiue_genes = list(set(genes))
 
         print(unqiue_genes)
-
+        """
         if len(unqiue_genes) == 1:
             print("Running api")
             print(id)
             print(filename)
+            print("going in",os.path.join(UPLOAD_FOLDER, name_))
             pypgx.api.pipeline.run_ngs_pipeline(
                 str(unqiue_genes[0]).upper(),
                 id,
-                variants=os.path.join(UPLOAD_FOLDER, filename),
+                variants= new_file_path
             )
+          
 
             print("ran!")
             print(id)
+            """
 
-            os.chdir(id)
-            print("unzip ")
-            subprocess.run(
+        os.chdir(id)
+            #print("unzip ")
+        subprocess.run(
                 shlex.split("unzip results.zip".format(dir=id))
             )  # change this and shutils
-            print("unzipped")
+            #print("unzipped")
 
-            file = [f for f in os.listdir("./") if f.startswith("tmp")]
+        file = [f for f in os.listdir("./") if f.startswith("tmp")]
             # file = list(filter(lambda x : x.startswith("tmp"), list(os.listdir("./"))))
 
-            print(f"file : {file[0]}")
+        print(f"file : {file[0]}")
 
-            df2 = pd.read_csv("{dir}/data.tsv".format(dir=file[0]), sep="\t")
+        df2 = pd.read_csv("{dir}/data.tsv".format(dir=file[0]), sep="\t")
 
-            print(df2.head())
+        print(df2.head())
 
-            genotype = str(df2["Genotype"])
-            phenotype = df2["Phenotype"][0]
-            print(phenotype)
-            print(genotype)
+        genotype = str(df2["Genotype"])
+        phenotype = df2["Phenotype"][0]
+        print(phenotype)
+        print(genotype)
 
-            # try to avoid this
-            os.chdir("../")
+        # try to avoid this
+        os.chdir("../")
 
-            # recommendation = str(df.loc[(df['Drug'] == str(drug).lower())])
-            recommendation = focus_df[focus_df["Phenotype1"] == phenotype][
-                "Recommendation"
-            ]
-            rec = recommendation.to_frame()
+        # recommendation = str(df.loc[(df['Drug'] == str(drug).lower())])
+        recommendation = focus_df[focus_df["Phenotype1"] == phenotype][
+            "Recommendation"
+        ]
+        rec = recommendation.to_frame()
 
-            print(rec.columns)
+        print(rec.columns)
 
-            df3 = rec.drop_duplicates(
-                keep="first"
-            )  # Removing duplicates and just keeping the first hit
-            recommend = df3["Recommendation"].tolist()
+        df3 = rec.drop_duplicates(
+            keep="first"
+        )  # Removing duplicates and just keeping the first hit
+        recommend = df3["Recommendation"].tolist()
 
-            ph_result = []
-            if phenotype.startswith("Normal Metabolizer") or phenotype.startswith(
-                "Rapid Metabolizer"
-            ):
-                ph_result.append("Take it!")
-            else:
-                ph_result.append("Leave it!")
+        ph_result = []
+        if phenotype.startswith("Normal Metabolizer") or phenotype.startswith(
+            "Rapid Metabolizer"
+        ):
+            ph_result.append("Take it!")
+        else:
+            ph_result.append("Leave it!")
 
             # print(df3)
 
             # df3.to_csv('rec2.csv')
 
         # return df3.to_json()
+    except Exception as e:
+        logging.error(str(e))
+        #return {"msg": str(e)}
+        return render_template('error.html', message=str(e))
+    
         
 
-    except Exception as e:
-
-        return {"msg": str(e)}
+ 
     
     
-    os.system("rm -r {vcf}".format(vcf=path_upload))
-    os.system("rm -r {path}/*.tbi".format(path = "/uploads"))
+    os.system("rm -r {vcf}".format(vcf=new_file_path))
+    os.system("rm -r {vcf_tbi}".format(vcf_tbi = new_file_path+".tbi"))
     os.system("rm -r {dir}".format(dir=id))
     
 
@@ -266,19 +295,12 @@ def process_file(path, filename):
 	drug =  request.form.get("drug")
 	#vcf = args.vcf
 	#id = args.jobid
-
 	focus_df = df.loc[(df['Drug'] == str(drug).lower())]
-
 	groups = (focus_df.groupby(["Drug"]))
-
 	genes=[]
 	for ind , row in focus_df.iterrows():
     	genes.append(row["Gene1"])
-
-
 	unqiue_genes = list(set(genes))
-
-
 	if len(unqiue_genes)==1:
     	pypgx.api.pipeline.run_ngs_pipeline(str(unqiue_genes[0]).upper() ,id , variants=vcf)
     #os.chdir("./{dir}".format(dir=id))
@@ -286,20 +308,15 @@ def process_file(path, filename):
     	os.chdir(id)
     	subprocess.run(shlex.split("unzip results.zip".format(dir=id)))
     	print("unzipped")
-
-
     	file = [f for f in os.listdir("./")  if f.startswith("tmp") ]
-
     	print(file[0])
     	df2 = pd.read_csv("{dir}/data.tsv".format(dir=file[0]),sep='\t')
     
     	genotype = str(df2["Genotype"])
     	phenotype = (df2["Phenotype"][0])
     	print(phenotype)
-
     	os.chdir("../")
     
-
     #recommendation = str(df.loc[(df['Drug'] == str(drug).lower())])
     	recommendation = focus_df[focus_df["Phenotype1"]==phenotype]["Recommendation"]
     	rec=recommendation.to_frame()
@@ -307,7 +324,6 @@ def process_file(path, filename):
     	df3 = rec.drop_duplicates(keep='first') #Removing duplicates and just keeping the first hit
     	print(df3)
     	df3.to_csv('rec2.csv')
-
      
      return(str,kratikal)
      #return render_template("show.html", data=str, varchar=kratikal)
