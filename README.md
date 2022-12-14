@@ -5,7 +5,7 @@ This is the codebase for the PHARM CARE project, which employs PyPGx. PyPGx can 
 
 Link to the webserver - http://161.35.61.155:5000/
 
-Link to the Youtube - https://www.youtube.com/watch?v=c_9HPDlnQRs
+Link to the Youtube - https://youtu.be/OmHG6hVOUss
 
 
 # Aim of the project
