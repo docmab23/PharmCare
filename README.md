@@ -46,6 +46,10 @@ The application on the backend uses PyPgx to call star alleles for the pharmaco-
 
 The user interface takes in the vcf file (in .gz , .vcf format) and the drug of interest (from the drop down list) and eventually outputs whether the drug can be taken or not, along with the clinical recommendations in the database.
 
+# Disclaimer
+
+We understand that your genetics are very personal, so we reject any use of genetic information for our own gain and delete your genetic information as soon as the results are revealed. The precision of Pharmcare results cannot be guaranteed. Please consult your doctor.
+
 # References
 1. Wroblewski et al., 2022. Pharmacogenetic variation in Neanderthals and Denisovans and implications for human health and response to medications. bioRxiv.
 
