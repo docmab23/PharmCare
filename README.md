@@ -5,6 +5,8 @@ This is the codebase for the PHARM CARE project, which employs PyPGx. PyPGx can 
 
 Link to the webserver - http://161.35.61.155:5000/
 
+Link to the Youtube - https://www.youtube.com/watch?v=c_9HPDlnQRs
+
 
 # Aim of the project
 To use Pharmacogenomic based information to predict the usage and the recommendation associated with the drug based on users WGS report.
