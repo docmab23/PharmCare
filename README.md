@@ -1,5 +1,7 @@
 #PharmCare
+
 ![alt text](assets/Screenshot 2022-12-13 140426.png)
+
 This is the codebase for the PHARM CARE project, which employs PyPGx. PyPGx can predict PGx genotypes (e.g. *4/*5) and phenotypes (e.g. Poor Metabolizer) using genomic data from next-generation sequencing (NGS), single nucleotide polymorphism (SNP) arrays, and long-read sequencing.
 
 
